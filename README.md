@@ -1,6 +1,8 @@
 # Weather-Advisory Support Bot
 
-A support bot that provides outdoor activity safety advice. It combines live Open-Meteo weather data, YAML-defined Standard Operating Procedures (SOPs), deterministic policy evaluation, LangGraph orchestration, Groq-powered LLM reasoning/response generation, a FastAPI backend, and a React + TypeScript frontend.
+**🚀 Live Demo:** [View Deployed App on Render](https://weather-advisory-frontend-befd.onrender.com)
+
+A support bot that provides outdoor activity safety advice. It is fully deployed on Render and combines live Open-Meteo weather data, YAML-defined Standard Operating Procedures (SOPs), deterministic policy evaluation, LangGraph orchestration, Groq-powered LLM reasoning/response generation, a FastAPI backend, and a React + TypeScript frontend.
 
 ## Architecture
 
