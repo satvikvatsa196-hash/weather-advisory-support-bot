@@ -1,0 +1,155 @@
+- id: sop_extreme_rain_system
+  description: "Overrides all other advice when a severe rain system is present."
+  category: all
+  severity: critical
+  intent_keywords: []
+  conditions:
+    type: numeric
+    rules:
+      - metric: "precipitation"
+        operator: ">="
+        value: 15.0
+  guidance: "A significant rain system is actively bringing heavy rainfall to your location. Treat any outdoor activity with high severity and consider postponing."
+
+- id: sop_uv_high_exercise
+  description: "High UV index during outdoor exercise."
+  category: outdoor exercise
+  severity: high
+  intent_keywords: ["exercise", "run", "jog", "cycle", "workout"]
+  conditions:
+    type: numeric
+    rules:
+      - metric: "uv_index"
+        operator: ">="
+        value: 8.0
+  guidance: "The UV index is very high. Advise against unprotected outdoor exercise and recommend sunscreen plus rescheduling to early morning or evening."
+
+- id: sop_wind_cycling
+  description: "Dangerous wind speeds for cycling."
+  category: outdoor exercise
+  severity: medium
+  intent_keywords: ["cycle", "cycling", "bike", "biking", "two-wheeler"]
+  conditions:
+    type: numeric
+    rules:
+      - metric: "wind_speed_10m"
+        operator: ">"
+        value: 40.0
+  guidance: "Wind speeds exceed 40 km/h. This is a safety risk for cycling or riding a two-wheeler, not just a comfort issue."
+
+- id: sop_precipitation_travel
+  description: "High probability of rain during travel."
+  category: travel
+  severity: medium
+  intent_keywords: ["travel", "drive", "commute", "flight"]
+  conditions:
+    type: numeric
+    rules:
+      - metric: "precipitation_probability"
+        operator: ">="
+        value: 70.0
+  guidance: "Precipitation probability is high. Warn of possible travel delays and recommend checking for alerts before departure."
+
+- id: sop_heat_vulnerable
+  description: "Extreme heat risk for vulnerable groups."
+  category: vulnerable groups
+  severity: high
+  intent_keywords: ["elderly", "children", "kid", "baby", "pet", "dog"]
+  conditions:
+    type: numeric
+    rules:
+      - metric: "temperature_2m"
+        operator: ">="
+        value: 35.0
+  guidance: "Temperatures are extremely high. This poses a severe risk to vulnerable groups like children, elderly, and pets. Keep them indoors and hydrated."
+
+- id: sop_cold_vulnerable
+  description: "Extreme cold risk for vulnerable groups."
+  category: vulnerable groups
+  severity: high
+  intent_keywords: ["elderly", "children", "kid", "baby", "pet", "dog"]
+  conditions:
+    type: numeric
+    rules:
+      - metric: "temperature_2m"
+        operator: "<="
+        value: 5.0
+  guidance: "Temperatures are extremely cold. Ensure vulnerable groups have adequate warm clothing and limit prolonged outdoor exposure."
+
+- id: sop_fuzzy_picnic
+  description: "Checks if weather is subjectively good for a picnic."
+  category: leisure
+  severity: low
+  intent_keywords: ["picnic", "park", "outdoor lunch"]
+  conditions:
+    type: fuzzy
+    prompt: "Given the current weather, is this considered bad weather for a relaxed outdoor picnic? Answer True if it's bad, False if it's fine."
+  guidance: "Conditions are suboptimal for a picnic today due to the weather. Suggest considering an indoor alternative."
+
+- id: sop_mild_heat_exercise
+  description: "Warm weather exercise precautions."
+  category: outdoor exercise
+  severity: low
+  intent_keywords: ["exercise", "run", "jog", "cycle", "workout"]
+  conditions:
+    type: numeric
+    rules:
+      - metric: "temperature_2m"
+        operator: ">="
+        value: 30.0
+  guidance: "It is quite warm outside. Remember to stay hydrated and take breaks during your exercise."
+
+- id: sop_moderate_rain_travel
+  description: "Moderate rain travel precautions."
+  category: travel
+  severity: low
+  intent_keywords: ["travel", "drive", "commute"]
+  conditions:
+    type: numeric
+    rules:
+      - metric: "precipitation"
+        operator: ">"
+        value: 2.0
+      - metric: "precipitation"
+        operator: "<"
+        value: 15.0
+  guidance: "There is moderate rain. Drive carefully and expect slightly slower traffic."
+
+- id: sop_fuzzy_stargazing
+  description: "Checks if visibility is good for stargazing."
+  category: leisure
+  severity: low
+  intent_keywords: ["stargazing", "astronomy", "telescope", "look at stars"]
+  conditions:
+    type: fuzzy
+    prompt: "Given the current precipitation and cloud cover (if available), is this bad weather for stargazing? Answer True if it's bad (cloudy/rainy), False if it's clear."
+  guidance: "Visibility might be poor for stargazing tonight due to precipitation or clouds. You might want to pick another night."
+
+- id: sop_freezing_rain_travel
+  description: "Freezing rain risk for driving."
+  category: travel
+  severity: critical
+  intent_keywords: ["travel", "drive", "commute"]
+  conditions:
+    type: numeric
+    rules:
+      - metric: "temperature_2m"
+        operator: "<="
+        value: 0.0
+      - metric: "precipitation"
+        operator: ">"
+        value: 0.0
+  guidance: "Freezing rain conditions are present! Roads will be extremely icy and hazardous. Avoid driving if possible."
+
+- id: sop_high_wind_leisure
+  description: "High winds disrupting general leisure activities."
+  category: leisure
+  severity: medium
+  intent_keywords: ["picnic", "park", "stargazing", "walk", "hike"]
+  conditions:
+    type: numeric
+    rules:
+      - metric: "wind_speed_10m"
+        operator: ">="
+        value: 30.0
+  guidance: "It's quite windy today, which might make relaxed outdoor activities less comfortable. Secure loose items if you do go out."
