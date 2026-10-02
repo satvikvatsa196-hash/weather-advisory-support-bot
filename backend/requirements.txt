@@ -6,5 +6,6 @@ langchain-groq
 httpx
 pyyaml
 pydantic
+python-dotenv
 pytest
 pytest-asyncio

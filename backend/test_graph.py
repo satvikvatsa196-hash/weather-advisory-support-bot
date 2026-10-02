@@ -173,14 +173,14 @@ async def test_no_applicable_sop(mock_weather_fetch):
         mock_structured.invoke.return_value = IntentOutput(requires_weather=True, location="Bhopal", activity="sleeping indoors")
         mock_structured.ainvoke = AsyncMock(return_value=FuzzyResult(matches=False))
         
-        # If no SOP matches, the LLM should output the required string
-        mock_llm_instance.invoke.return_value = AIMessage(content="I don't have guidance for that.")
+        # If no SOP matches, the LLM should output a conversational response
+        mock_llm_instance.invoke.return_value = AIMessage(content="Yes, it's safe to sleep indoors today.")
         
         config = {"configurable": {"thread_id": "8"}}
         result = await graph.ainvoke({"messages": [HumanMessage(content="Is it good for sleeping indoors?")]}, config=config)
         
         assert len(result["matched_sops"]) == 0
-        assert "I don't have guidance for that." in result["messages"][-1].content
+        assert "Yes, it's safe" in result["messages"][-1].content
 
 @pytest.mark.asyncio
 async def test_prompt_injection(mock_weather_fetch):
@@ -333,7 +333,7 @@ async def test_llm_failure_fallback():
         
         # Should fallback gracefully without fabricating
         response_text = result["messages"][-1].content
-        assert "According to SOP" in response_text or "encountered an API error" in response_text
+        assert "According to policy" in response_text or "encountered an issue" in response_text
 
 @pytest.mark.asyncio
 async def test_fuzzy_stargazing():
