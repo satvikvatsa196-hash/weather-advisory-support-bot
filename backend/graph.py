@@ -32,7 +32,7 @@ class FuzzyResult(BaseModel):
 
 # Node implementations
 def extract_intent(state: AgentState):
-    llm = ChatGroq(model="llama3-8b-8192", temperature=0, groq_api_key=os.environ.get("GROQ_API_KEY"))
+    llm = ChatGroq(model="llama-3.1-8b-instant", temperature=0, groq_api_key=os.environ.get("GROQ_API_KEY"))
     structured_llm = llm.with_structured_output(IntentOutput)
     
     sys_msg = SystemMessage(content=(
@@ -93,7 +93,7 @@ async def evaluate_policies_node(state: AgentState):
     final_matches = list(matches)
     
     # Fuzzy matches
-    llm = ChatGroq(model="llama3-8b-8192", temperature=0, groq_api_key=os.environ.get("GROQ_API_KEY"))
+    llm = ChatGroq(model="llama-3.1-8b-instant", temperature=0, groq_api_key=os.environ.get("GROQ_API_KEY"))
     structured_llm = llm.with_structured_output(FuzzyResult)
     
     matched_categories = engine.evaluate_intent(activity)
@@ -127,7 +127,7 @@ async def evaluate_policies_node(state: AgentState):
     return {"matched_sops": [m.model_dump() for m in final_matches]}
 
 def generate_response_node(state: AgentState):
-    llm = ChatGroq(model="llama3-8b-8192", temperature=0, groq_api_key=os.environ.get("GROQ_API_KEY"))
+    llm = ChatGroq(model="llama-3.1-8b-instant", temperature=0, groq_api_key=os.environ.get("GROQ_API_KEY"))
     
     weather_data = state.get("weather_data")
     sops = state.get("matched_sops", [])
