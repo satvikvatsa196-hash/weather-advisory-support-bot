@@ -61,6 +61,7 @@ The application enforces rules strictly through a YAML-driven policy engine:
 - SOP IDs and guidance text remain strictly controlled by the YAML configuration.
 - The engine can return multiple matching SOPs, which are deterministically ordered by severity.
 - A global severe-weather SOP (e.g., extreme rain) applies across all activities and overrides activity-specific rules.
+- If no SOPs are matched (weather is safe), the LLM generates a natural, conversational response affirmatively stating that it is safe, rather than a generic robotic fallback.
 
 **YAML SOP Example:**
 ```yaml
@@ -86,6 +87,11 @@ To prevent hallucinations:
 - Missing weather fields are explicitly represented as unavailable.
 - API and geocoding failures are surfaced honestly to the user rather than guessed.
 - All recommendations must be directly supported by matched SOPs.
+
+## Location & Intent Extraction
+
+- If a user provides an activity but forgets to mention a location (e.g., "Is it safe to cycle today?"), the system gracefully handles the missing parameter by asking the user to provide their city, rather than throwing an error.
+- Full conversational context is passed to the policy engine, ensuring critical keywords (like "elderly" or "kids") aren't lost when matching vulnerable group SOPs.
 
 ## Session Memory
 
@@ -114,9 +120,10 @@ This architecture ensures that conversational context (like remembering the loca
    ```powershell
    pip install -r backend\requirements.txt
    ```
-3. Configure the environment variable in `backend/.env` (use `.env.example` as a template):
+3. Configure the environment variables in `backend/.env` (use `backend/.env.example` as a template):
    ```text
    GROQ_API_KEY=your_groq_api_key_here
+   GROQ_MODEL=openai/gpt-oss-20b  # Optional: defaults to openai/gpt-oss-20b if not set
    ```
 
 ### Frontend
